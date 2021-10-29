@@ -117,9 +117,8 @@ class State:
             return False
 
         if self.previous_move and (not self.free_move):
-            if move.index_local_board != (
-                self.previous_move.x * 3 + self.previous_move.y
-            ):
+            # print(self.free_move)
+            if move.index_local_board != (self.previous_move.x * 3 + self.previous_move.y):
                 return False
 
         board_to_move = self.blocks[move.index_local_board]

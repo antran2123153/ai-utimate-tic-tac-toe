@@ -1,5 +1,5 @@
 import numpy as np
-from state import State
+from state import State, UltimateTTT_Move
 import time
 
 MAX_DEPTH = 5
@@ -18,12 +18,30 @@ SCORE_6 = 10
 SCORE_WIN_BLOCK = 50
 SCORE_WIN_GAME = 500
 
+
+def count_X(blocks):
+    count = 0
+    for i in [z for y in blocks for x in y for z in x]:
+        if i == 1:
+            count += 1
+    return count
+
+
+def count_O(blocks):
+    count = 0
+    for i in [z for y in blocks for x in y for z in x]:
+        if i == -1:
+            count += 1
+    return count
+
+
 def isWinGame(block, player):
     indexs = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
     for i in indexs:
         if block[i[0]] == block[i[1]] == block[i[2]] == player:
             return True
     return False
+
 
 def scoreBlock(block, player):
     score = 0
@@ -113,15 +131,59 @@ def minimax(depth, cur_state, cur_player, player, alpha, beta):
             if beta <= alpha:
                 break
     return best
-	
+
 
 def select_move(cur_state, remain_time):
     valid_moves = cur_state.get_valid_moves
+    blocks = cur_state.blocks
     n = len(valid_moves)
-    print(valid_moves)
-    
     if n == 0:
         return None
+
+    if cur_state.player_to_move == 1:
+        if count_X(blocks) == 0 and count_O(blocks) == 0:
+            return UltimateTTT_Move(4, 1, 1, 1)
+
+        if count_X(blocks) < 8:
+            for valid_move in valid_moves:
+                if valid_move.x == 1 and valid_move.y == 1:
+                    return valid_move
+
+        if count_X(blocks) == 8:
+            previous_move = cur_state.previous_move
+            x = previous_move.x
+            y = previous_move.y
+            return UltimateTTT_Move(x*3 + y, x, y, 1)
+
+        if count_X(blocks) > 8:
+            previous_move = cur_state.previous_move
+
+            index_local_board = previous_move.index_local_board 
+            x = index_local_board // 3
+            y = index_local_board % 3
+
+
+            if len(valid_moves) > 9:
+                for valid_move in valid_moves:
+                    if valid_move.x == x and valid_move.y == y and valid_move.index_local_board == 8 - index_local_board:
+                        return valid_move
+
+            for valid_move in valid_moves:
+                if valid_move.x == x and valid_move.y == y:
+                    return valid_move
+
+        for valid_move in valid_moves:
+            new_state = State(cur_state)
+            count = new_state.count_X
+            try:
+                new_state.act_move(valid_move)
+            except:
+                continue
+            if new_state.count_X > count:
+                return valid_move
+
+        best_move = np.random.choice(valid_moves)
+        return best_move
 
     best_value = MIN
     best_move = np.random.choice(valid_moves)
@@ -140,9 +202,7 @@ def select_move(cur_state, remain_time):
             value = minimax(-1, new_state, -player, player, MIN, MAX)
         else:
             value = minimax(-2, new_state, -player, player, MIN, MAX)    
-        # print(value)
         if value > best_value:
             best_value = value
             best_move = valid_move
-    # print('\n')
     return best_move
