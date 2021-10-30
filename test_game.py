@@ -192,8 +192,8 @@ def play_auto(player_X, player_O, rule=1):
         turn += 1
 
 
-# play_auto("minimax", "random_agent")
+# play_auto("1811486_1810839_1913106", "random_agent")
+play_auto("random_agent", "1811486_1810839_1913106")
 # play_step_by_step("autowin", "random_agent")
-play_auto("1811486_1810839_1913106", "random_agent")
+# play_auto("autowin", "random_agent")
 
-# play_step_by_step('random_agent', '3')

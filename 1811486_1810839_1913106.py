@@ -1,6 +1,5 @@
 import numpy as np
 from state import State, UltimateTTT_Move
-import time
 
 MAX_DEPTH = 5
 
@@ -17,6 +16,20 @@ SCORE_6 = 10
 
 SCORE_WIN_BLOCK = 50
 SCORE_WIN_GAME = 500
+
+
+def blocksO(blocks):
+    index = 0
+    for i in range(0, 9):
+        count = 0
+        if i != 4:
+            for row in blocks[i]:
+                for cell in row:
+                    if cell == -1:
+                        count += 1
+            if count > index:
+                index = i
+    return index
 
 
 def count_X(blocks):
@@ -155,10 +168,8 @@ def select_move(cur_state, remain_time):
             y = previous_move.y
             return UltimateTTT_Move(x*3 + y, x, y, 1)
 
-        if count_X(blocks) > 8:
-            previous_move = cur_state.previous_move
-
-            index_local_board = previous_move.index_local_board 
+        if count_X(blocks) > 8 and count_X(blocks) < 20:
+            index_local_board = blocksO(blocks)
             x = index_local_board // 3
             y = index_local_board % 3
 
@@ -167,7 +178,11 @@ def select_move(cur_state, remain_time):
                 for valid_move in valid_moves:
                     if valid_move.x == x and valid_move.y == y and valid_move.index_local_board == 8 - index_local_board:
                         return valid_move
-
+                for valid_move in valid_moves:
+                    if valid_move.x == 2 - x and valid_move.y == 2 - y and valid_move.index_local_board == 8 - index_local_board:
+                        return valid_move
+                
+                
             for valid_move in valid_moves:
                 if valid_move.x == x and valid_move.y == y:
                     return valid_move
@@ -183,6 +198,7 @@ def select_move(cur_state, remain_time):
                 return valid_move
 
         best_move = np.random.choice(valid_moves)
+
         return best_move
 
     best_value = MIN
@@ -199,9 +215,9 @@ def select_move(cur_state, remain_time):
         elif n > 5 and n <= 9:
             value = minimax(1, new_state, -player, player, MIN, MAX)
         elif n > 3 and n <= 5:
-            value = minimax(-1, new_state, -player, player, MIN, MAX)
+            value = minimax(0, new_state, -player, player, MIN, MAX)
         else:
-            value = minimax(-2, new_state, -player, player, MIN, MAX)    
+            value = minimax(-1, new_state, -player, player, MIN, MAX)    
         if value > best_value:
             best_value = value
             best_move = valid_move

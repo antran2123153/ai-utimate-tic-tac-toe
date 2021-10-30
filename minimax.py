@@ -118,7 +118,7 @@ def minimax(depth, cur_state, cur_player, player, alpha, beta):
 def select_move(cur_state, remain_time):
     valid_moves = cur_state.get_valid_moves
     n = len(valid_moves)
-    print(valid_moves)
+    # print(valid_moves)
     
     if n == 0:
         return None
@@ -129,7 +129,10 @@ def select_move(cur_state, remain_time):
 
     for valid_move in valid_moves:
         new_state = State(cur_state)
-        new_state.act_move(valid_move)
+        try:
+            new_state.act_move(valid_move)
+        except:
+            continue
         if n > 11:
             value = minimax(3, new_state, -player, player, MIN, MAX)
         elif n > 9 and n <= 11:
@@ -137,12 +140,10 @@ def select_move(cur_state, remain_time):
         elif n > 5 and n <= 9:
             value = minimax(1, new_state, -player, player, MIN, MAX)
         elif n > 3 and n <= 5:
-            value = minimax(-1, new_state, -player, player, MIN, MAX)
+            value = minimax(0, new_state, -player, player, MIN, MAX)
         else:
-            value = minimax(-2, new_state, -player, player, MIN, MAX)    
-        # print(value)
+            value = minimax(1, new_state, -player, player, MIN, MAX)    
         if value > best_value:
             best_value = value
             best_move = valid_move
-    # print('\n')
     return best_move
