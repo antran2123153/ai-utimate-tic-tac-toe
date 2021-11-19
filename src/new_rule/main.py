@@ -2,6 +2,8 @@ from state import State, State_2
 import time
 from importlib import import_module
 
+count_x = 0
+count_o = 0
   
 def main(player_X, player_O, rule = 1):
     dict_player = {1: 'X', -1: 'O'}
@@ -56,7 +58,10 @@ def main(player_X, player_O, rule = 1):
     print("X:", cur_state.count_X)
     print("O:", cur_state.count_O)
 
-
-# main('random_agent', '_MSSV')
-main("minimax", "random_agent")
  
+# random_agent
+# player
+# minimax
+# play_auto
+# play_step_by_step
+main("player", "minimax")

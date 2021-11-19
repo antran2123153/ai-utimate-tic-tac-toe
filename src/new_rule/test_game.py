@@ -12,12 +12,12 @@ color = {
     "orange": pygame.Color(255, 120, 0),
 }
 small_image = {
-    1: pygame.image.load("images/small_x.png"),
-    -1: pygame.image.load("images/small_o.png"),
+    1: pygame.image.load("../images/small_x.png"),
+    -1: pygame.image.load("../images/small_o.png"),
 }
 large_image = {
-    1: pygame.image.load("images/large_x.png"),
-    -1: pygame.image.load("images/large_o.png"),
+    1: pygame.image.load("../images/large_x.png"),
+    -1: pygame.image.load("../images/large_o.png"),
 }
 
 pygame.init()
@@ -191,9 +191,9 @@ def play_auto(player_X, player_O, rule=1):
         state.act_move(new_move)
         turn += 1
 
-
-# play_auto("1811486_1810839_1913106", "random_agent")
-play_auto("random_agent", "1811486_1810839_1913106")
-# play_step_by_step("autowin", "random_agent")
-# play_auto("autowin", "random_agent")
-
+# minimax
+# random_agent
+# player
+# play_auto
+# play_step_by_step
+play_auto("player", "random_agent")

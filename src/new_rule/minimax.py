@@ -2,7 +2,7 @@ import numpy as np
 from state import State
 import time
 
-MAX_DEPTH = 5
+MAX_DEPTH = 4
 
 MAX = 1000
 MIN = -1000
@@ -16,7 +16,7 @@ SCORE_5 = 8
 SCORE_6 = 10
 
 SCORE_WIN_BLOCK = 50
-SCORE_WIN_GAME = 500
+SCORE_WIN_GAME = 2000
 
 def isWinGame(block, player):
     indexs = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
@@ -117,10 +117,9 @@ def minimax(depth, cur_state, cur_player, player, alpha, beta):
 
 def select_move(cur_state, remain_time):
     valid_moves = cur_state.get_valid_moves
-    n = len(valid_moves)
-    # print(valid_moves)
+    num_valid_moves = len(valid_moves)
     
-    if n == 0:
+    if num_valid_moves == 0:
         return None
 
     best_value = MIN
@@ -133,16 +132,16 @@ def select_move(cur_state, remain_time):
             new_state.act_move(valid_move)
         except:
             continue
-        if n > 11:
+        if num_valid_moves > 11:
             value = minimax(3, new_state, -player, player, MIN, MAX)
-        elif n > 9 and n <= 11:
+        elif num_valid_moves > 9 and num_valid_moves <= 11:
             value = minimax(2, new_state, -player, player, MIN, MAX)
-        elif n > 5 and n <= 9:
+        elif num_valid_moves > 5 and num_valid_moves <= 9:
             value = minimax(1, new_state, -player, player, MIN, MAX)
-        elif n > 3 and n <= 5:
+        elif num_valid_moves > 3 and num_valid_moves <= 5:
             value = minimax(0, new_state, -player, player, MIN, MAX)
         else:
-            value = minimax(1, new_state, -player, player, MIN, MAX)    
+            value = minimax(-1, new_state, -player, player, MIN, MAX)    
         if value > best_value:
             best_value = value
             best_move = valid_move
