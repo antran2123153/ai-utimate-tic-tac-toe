@@ -11,4 +11,4 @@ Utimate tic tac toe: similar to regular tic tac toe but expanded to 9x9 includin
 
 ### Run the game:
 
-- Run the game.py file, replace at the end of the file to select the objects and the order of battle
+- Run the test_game.py file, replace at the end of the file to select the objects and the order of battle

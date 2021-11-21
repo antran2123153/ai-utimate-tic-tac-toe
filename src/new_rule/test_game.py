@@ -196,4 +196,4 @@ def play_auto(player_X, player_O, rule=1):
 # player
 # play_auto
 # play_step_by_step
-play_auto("player", "random_agent")
+play_auto("minimax", "player")

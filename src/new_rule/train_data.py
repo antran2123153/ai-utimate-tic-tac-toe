@@ -1,9 +1,9 @@
 SCORE_1 = 6
 SCORE_2 = 8
 SCORE_3 = 10
-SCORE_4 = 5
+SCORE_4 = 12
 
-SCORE_WIN_BLOCK = 1500
+SCORE_WIN_BLOCK = 2000
 
 def scoreBlock(block):
     for (i, j, k) in [(0,1,2), (3,4,5), (6,7,8), (0,3,6), (1,4,7), (2,5,8), (0,4,8), (2,6,4)]:

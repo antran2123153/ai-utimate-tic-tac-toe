@@ -22,7 +22,7 @@ def main(player_X, player_O, rule = 1):
     
     
     while turn <= limit:
-        print("turn:", turn, end='\n\n')
+        # print("turn:", turn, end='\n\n')
         if cur_state.game_over:
             print("winner:", dict_player[cur_state.player_to_move * -1])
             break
@@ -51,12 +51,12 @@ def main(player_X, player_O, rule = 1):
             break
         
         cur_state.act_move(new_move)
-        print(cur_state)
+        # print(cur_state)
         
         turn += 1
         
-    print("X:", cur_state.count_X)
-    print("O:", cur_state.count_O)
+    # print("X:", cur_state.count_X)
+    # print("O:", cur_state.count_O)
 
  
 # random_agent
@@ -64,4 +64,9 @@ def main(player_X, player_O, rule = 1):
 # minimax
 # play_auto
 # play_step_by_step
-main("player", "minimax")
+for i in range(10):
+    main("player", "minimax")
+    
+print()
+for i in range(10):
+    main("minimax", "player")
